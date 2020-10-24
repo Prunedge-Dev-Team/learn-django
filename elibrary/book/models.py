@@ -1,6 +1,6 @@
 from django.db import models
 import uuid
-
+from django.conf import settings
 # Create your models here.
 
 
@@ -32,3 +32,9 @@ class Book(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class BookSubscription(models.Model):
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    reader = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    books = models.ManyToManyField(Book)
